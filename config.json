@@ -1,0 +1,7 @@
+{
+  "host": "112.74.179.217",
+  "username": "root",
+  "password": null,
+  "database": "pss_new",
+  "dialect": "mysql"
+}

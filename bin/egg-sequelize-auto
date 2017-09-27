@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const program = require('commander');
+const path = require('path');
+const EggSequelizeAuto = require('../');
+
+program
+  .usage('-h <host> -d <database> -u <user> -x [password] -p [port]  --dialect [dialect] -c [/path/to/config] -o [/path/to/models] -t [tableName]')
+  .version(require('../package.json').version)
+  .option('-h, --host [host]', 'hostname or ip for the database', 'localhost')
+  .option('-d, --database <database>', 'database name')
+  .option('-u, --user [user]', 'username for database', 'root')
+  .option('-x, --pass [pass]', 'password for database', null)
+  .option('-p, --port [port]', 'port for database', 3306)
+  .option('-s, --schema <name>', 'database schema')
+  .option('-c, --config <file>', 'JSON file for Sequelize\'s constructor "options" flag object')
+  .option('-o, --output <dir>', 'models output directory')
+  .option('-e, --dialect [dialect]', 'database dialect, such as mysql, mssql, sqlite', 'mysql')
+  .option('-a, --additional <file>', 'JSON file containing model definitions for Sequelize\'s constructor')
+  .option('-t, --tables <names>', 'comma-separated names of tables to import')
+  .option('-T, --skip-tables <names>', 'comma-separated names of tables to skip')
+  .option('-C, --camel', 'use camel case to name models and fields')
+  .parse(process.argv);
+
+const config = {
+  host: program.host || 'localhost',
+  port: program.port,
+  dialect: program.dialect || 'mysql',
+  database: program.database,
+  storage: program.database,
+  schema: program.schema,
+  username: program.user || 'root',
+  password: program.pass || null,
+  addtional: !!program.addtional ? require(path.resolve(program.addtional)) : {},
+
+  spaces: true,
+  indentation: 2,
+  directory: program.output || path.join(process.cwd(), './app/model'),
+  tables: !!program.tables ? program.tables.split(',') : null,
+  skipTables: !!program.skipTables ? program.skipTables.split(',') : null,
+  camelCase: !!program.camelCase
+};
+
+if (!!program.config) {
+  Object.assign(config, require(path.resolve(program.config)));
+}
+
+const auto = new EggSequelizeAuto(config.database, config.username, config.password, config);
+
+auto.run(function (err) {
+  if (err) throw err;
+  console.log('Done!');
+});
