@@ -4,7 +4,8 @@
   "description": "Automatically generate bare sequelize models from your database, adjustment for egg",
   "main": "index.js",
   "bin": {
-    "egg-sequelize-auto": "bin/egg-sequelize-auto"
+    "egg-sequelize-auto": "bin/egg-sequelize-auto",
+    "sequelize-auto":"bin/sequelize-auto"
   },
   "scripts": {
     "test": "node ./bin/egg-sequelize-auto -c ./config.json"
@@ -13,10 +14,16 @@
   "author": "lk <lkspc@qq.com>",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.1.5",
     "commander": "^2.11.0",
-    "sequelize-auto": "^0.4.28"
+    "eslint": "^4.3.0",
+    "graceful-fs-extra": "^2.0.0",
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
+    "sequelize": "^4.11.1",
+    "yargs": "^8.0.1"
   },
   "devDependencies": {
-    "mysql": "^2.14.1"
+    "mysql2": "^1.4.2"
   }
 }

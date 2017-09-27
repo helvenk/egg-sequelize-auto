@@ -1,0 +1,7 @@
+{
+  "indent_size": 2,
+  "e4x": true,
+  "max_preserve_newlines": 2,
+  "break_chained_methods": false,
+  "brace_style": "collapse,preserve-inline"
+}

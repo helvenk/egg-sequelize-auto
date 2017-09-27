@@ -2,9 +2,9 @@
 
 'use strict';
 
+const EggSequelizeAuto = require('../');
 const program = require('commander');
 const path = require('path');
-const EggSequelizeAuto = require('../');
 
 program
   .usage('-h <host> -d <database> -u <user> -x [password] -p [port]  --dialect [dialect] -c [/path/to/config] -o [/path/to/models] -t [tableName]')
@@ -49,7 +49,7 @@ if (!!program.config) {
 
 const auto = new EggSequelizeAuto(config.database, config.username, config.password, config);
 
-auto.run(function (err) {
+auto.run(function(err) {
   if (err) throw err;
   console.log('Done!');
 });

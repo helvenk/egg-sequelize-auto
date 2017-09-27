@@ -3,5 +3,6 @@
   "username": "root",
   "password": null,
   "database": "pss_new",
-  "dialect": "mysql"
+  "dialect": "mysql",
+  "logging": false
 }
