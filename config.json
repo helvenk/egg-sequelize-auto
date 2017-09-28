@@ -1,8 +1,8 @@
 {
-  "host": "112.74.179.217",
+  "host": "localhost",
   "username": "root",
   "password": null,
-  "database": "pss_new",
+  "database": "test",
   "dialect": "mysql",
   "logging": false
 }
