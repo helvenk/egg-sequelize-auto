@@ -54,7 +54,7 @@ Produces a file/files such as ./app/model/users.js which looks like:
     module.exports = app => {
       const DataTypes = app.Sequelize;
 
-      const Model = sequelize.define('Users', {
+      const Model = app.model.define('Users', {
         id: {
           type: DataTypes.INTEGER(11),
           allowNull: false,
