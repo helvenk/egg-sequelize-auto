@@ -1,22 +1,29 @@
-# Sequelize-Auto
+# Egg-Sequelize-Auto
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/sequelize/sequelize-auto.svg)](https://greenkeeper.io/)
+Automatically generate models for [egg-sequelize](https://github.com/eggjs/egg-sequelize) via the command line.
 
-[![Build Status](http://img.shields.io/travis/sequelize/sequelize-auto/master.svg)](https://travis-ci.org/sequelize/sequelize-auto) [![Build status](https://ci.appveyor.com/api/projects/status/bf9lb89rmpj6iveb?svg=true)](https://ci.appveyor.com/project/durango/sequelize-auto) [![Dependency Status](https://david-dm.org/sequelize/sequelize-auto.svg)](https://david-dm.org/sequelize/sequelize-auto) [![Code Climate](https://codeclimate.com/github/sequelize/sequelize-auto/badges/gpa.svg)](https://codeclimate.com/github/sequelize/sequelize-auto) [![Test Coverage](https://codeclimate.com/github/sequelize/sequelize-auto/badges/coverage.svg)](https://codeclimate.com/github/sequelize/sequelize-auto/coverage)
+NOTE: Egg-Sequelize-Auto is based on [Sequelize-Auto](https://github.com/sequelize/sequelize-auto).
 
-Automatically generate models for [SequelizeJS](https://github.com/sequelize/sequelize) via the command line.
+## Why Egg-Sequelize-Auto
+
+[Sequelize-Auto](https://github.com/sequelize/sequelize-auto)
+is a tool used to generate models for [Sequelize](https://github.com/sequelize/sequelize), which based on old `Sequlieze`version 3.x.
+
+Now, `Sequelize` v4 has breaking changes, we need a latest version of `Sequelize-Auto` which works in [Egg](https://github.com/eggjs/egg).
+
+So we upgraded `Sequelize-Auto` to `Sequelize` v4 and adjusted it for [egg-sequelize](https://github.com/eggjs/egg-sequelize).
 
 ## Install
 
-    npm install -g sequelize-auto
+    npm install -g egg-sequelize-auto
 
 ## Prerequisites
 
-You will need to install the correct dialect binding globally before using sequelize-auto.
+You will need to install the correct dialect binding globally before using egg-sequelize-auto.
 
 Example for MySQL/MariaDB
 
-`npm install -g mysql`
+`npm install -g mysql2`
 
 Example for Postgres
 
@@ -24,7 +31,7 @@ Example for Postgres
 
 Example for Sqlite3
 
-`npm install -g sqlite`
+`npm install -g sqlite3`
 
 Example for MSSQL
 
@@ -32,35 +39,22 @@ Example for MSSQL
 
 ## Usage
 
-    [node] sequelize-auto -h <host> -d <database> -u <user> -x [password] -p [port]  --dialect [dialect] -c [/path/to/config] -o [/path/to/models] -t [tableName] -C
+When installed `egg-sequelize-auto`, you could use both `egg-sequelize-auto` and `sequlize-auto`.
 
-    Options:
-      -h, --host        IP/Hostname for the database.   [required]
-      -d, --database    Database name.                  [required]
-      -u, --user        Username for database.
-      -x, --pass        Password for database.
-      -p, --port        Port number for database.
-      -c, --config      JSON file for Sequelize's constructor "options" flag object as defined here: https://sequelize.readthedocs.org/en/latest/api/sequelize/
-      -o, --output      What directory to place the models.
-      -e, --dialect     The dialect/engine that you're using: postgres, mysql, sqlite
-      -a, --additional  Path to a json file containing model definitions (for all tables) which are to be defined within a model's configuration parameter. For more info: https://sequelize.readthedocs.org/en/latest/docs/models-definition/#configuration
-      -t, --tables      Comma-separated names of tables to import
-      -T, --skip-tables Comma-separated names of tables to skip
-      -C, --camel       Use camel case to name models and fields
-      -n, --no-write    Prevent writing the models to disk.
-      -s, --schema      Database schema from which to retrieve tables
-      -z, --typescript  Output models as typescript with a definitions file.
+Usages are all the same, see [sequelize-auto's usage](https://github.com/sequelize/sequelize-auto#usage)
 
 ## Example
 
-    sequelize-auto -o "./models" -d sequelize_auto_test -h localhost -u my_username -p 5432 -x my_password -e postgres
+    egg-sequelize-auto -o "./models" -d test -h localhost -u root -p root -x my_password -e mysql
 
-Produces a file/files such as ./models/Users.js which looks like:
+Produces a file/files such as .app/model/Users.js which looks like:
 
-    /* jshint indent: 2 */
+    /* indent size: 2 */
 
-    module.exports = function(sequelize, DataTypes) {
-      return sequelize.define('Users', {
+    module.exports = app => {
+      const DataTypes = app.Sequelize;
+
+      const Model = sequelize.define('Users', {
         id: {
           type: DataTypes.INTEGER(11),
           allowNull: false,
@@ -112,23 +106,28 @@ Produces a file/files such as ./models/Users.js which looks like:
         tableName: 'Users',
         freezeTableName: true
       });
+
+      Model.associate = function (){
+
+      }
+
+      return Model;
     };
 
-
-Which makes it easy for you to simply [Sequelize.import](http://docs.sequelizejs.com/en/latest/docs/models-definition/#import) it.
 
 ## Configuration options
 
 For the `-c, --config` option the following JSON/configuration parameters are defined by Sequelize's `options` flag within the constructor. For more info:
 
-[https://sequelize.readthedocs.org/en/latest/api/sequelize/](https://sequelize.readthedocs.org/en/latest/api/sequelize/)
+[http://docs.sequelizejs.com/class/lib/sequelize.js~Sequelize.html#instance-constructor-constructor](http://docs.sequelizejs.com/class/lib/sequelize.js~Sequelize.html#instance-constructor-constructor)
 
 ## Programmatic API
 
 ```js
-var SequelizeAuto = require('sequelize-auto')
-var auto = new SequelizeAuto('database', 'user', 'pass');
+const EggSequelizeAuto = require('egg-sequelize-auto')
+const auto = new EggSequelizeAuto'database', 'user', 'pass');
 
+// start 
 auto.run(function (err) {
   if (err) throw err;
 
@@ -136,8 +135,8 @@ auto.run(function (err) {
   console.log(auto.foreignKeys); // foreign key list
 });
 
-With options:
-var auto = new SequelizeAuto('database', 'user', 'pass', {
+// With options:
+const auto = new EggSequelizeAuto('database', 'user', 'pass', {
     host: 'localhost',
     dialect: 'mysql'|'mariadb'|'sqlite'|'postgres'|'mssql',
     directory: false, // prevents the program from writing to disk
@@ -150,41 +149,3 @@ var auto = new SequelizeAuto('database', 'user', 'pass', {
     //...
 })
 ```
-
-## Typescript
-
-Add -z to cli options or `typescript: true` to programmatic options. Model usage in a ts file:
-
-```js
-// All models, can put in or extend to a db object at server init
-import * as dbTables from './models/db.tables';
-const tables = dbTables.getModels(sequelize); //:dbTables.ITable
-tables.Device.findAll
-// Single models
-import * as dbDef from './models/db.d';
-const devices:dbDef.DeviceModel = sequelize.import('./models/Device');
-devices.findAll
-```
-
-## Testing
-
-You must setup a database called `sequelize_auto_test` first, edit the `test/config.js` file accordingly, and then enter in any of the following:
-
-    # for all
-    npm run test
-
-    # mysql only
-    npm run test-mysql
-
-    # postgres only
-    npm run test-postgres
-
-    # postgres native only
-    npm run test-postgres-native
-
-    # sqlite only
-    npm run test-sqlite
-
-## Projects Using Sequelize-Auto
-
-* [Sequelizer](https://github.com/andyforever/sequelizer)
