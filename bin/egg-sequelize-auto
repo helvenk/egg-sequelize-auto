@@ -44,7 +44,13 @@ const config = {
 };
 
 if (!!program.config) {
-  Object.assign(config, require(path.resolve(program.config)));
+  let _config = require(path.resolve(program.config));
+  if (typeof _config === 'function') {
+    _config = _config({});
+    _config = _config && _config.sequelize;
+  }
+
+  Object.assign(config, _config);
 }
 
 const auto = new EggSequelizeAuto(config.database, config.username, config.password, config);
