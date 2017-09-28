@@ -47,7 +47,7 @@ Usages are all the same, see [sequelize-auto's usage](https://github.com/sequeli
 
     egg-sequelize-auto -o "./models" -d test -h localhost -u root -p root -x my_password -e mysql
 
-Produces a file/files such as .app/model/Users.js which looks like:
+Produces a file/files such as ./app/model/users.js which looks like:
 
     /* indent size: 2 */
 
