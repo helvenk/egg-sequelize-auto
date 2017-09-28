@@ -7,9 +7,9 @@ NOTE: Egg-Sequelize-Auto is based on [Sequelize-Auto](https://github.com/sequeli
 ## Why Egg-Sequelize-Auto
 
 [Sequelize-Auto](https://github.com/sequelize/sequelize-auto)
-is a tool used to generate models for [Sequelize](https://github.com/sequelize/sequelize), which based on old `Sequlieze`version 3.x.
+is a tool used to generate models for [Sequelize](https://github.com/sequelize/sequelize), which based on old `Sequlieze` version 3.x.
 
-Now, `Sequelize` v4 has breaking changes, we need a latest version of `Sequelize-Auto` which works in [Egg](https://github.com/eggjs/egg).
+Now, `Sequelize v4` has breaking changes, we need a latest version of `Sequelize-Auto` which works in [Egg](https://github.com/eggjs/egg).
 
 So we upgraded `Sequelize-Auto` to `Sequelize` v4 and adjusted it for [egg-sequelize](https://github.com/eggjs/egg-sequelize).
 
