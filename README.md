@@ -1,3 +1,8 @@
+
+# 新增更新
+
+添加egg-sequelize 多数据库源的delegate名称参数，option中添加：egg_delegate:'some_model',  即可
+
 # Egg-Sequelize-Auto
 
 Automatically generate models for [egg-sequelize](https://github.com/eggjs/egg-sequelize) via the command line.
@@ -114,7 +119,6 @@ Produces a file/files such as ./app/model/users.js which looks like:
       return Model;
     };
 
-
 ## Configuration options
 
 For the `-c, --config` option the following JSON/configuration parameters are defined by Sequelize's `options` flag within the constructor. For more info:
@@ -127,7 +131,7 @@ For the `-c, --config` option the following JSON/configuration parameters are de
 const EggSequelizeAuto = require('egg-sequelize-auto')
 const auto = new EggSequelizeAuto'database', 'user', 'pass');
 
-// start 
+// start
 auto.run(function (err) {
   if (err) throw err;
 
@@ -141,6 +145,7 @@ const auto = new EggSequelizeAuto('database', 'user', 'pass', {
     dialect: 'mysql'|'mariadb'|'sqlite'|'postgres'|'mssql',
     directory: false, // prevents the program from writing to disk
     port: 'port',
+    egg_delegate:'model'
     additional: {
         timestamps: false
         //...
